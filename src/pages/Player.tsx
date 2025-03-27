@@ -2,8 +2,11 @@ import { MessageCircle } from "lucide-react";
 import Header from "../components/Header";
 import Video from "../components/Video";
 import Module from "../components/Module";
+import { useAppSelector } from "../store";
 
 export default function Player() {
+  const modules = useAppSelector((state) => state.player.course?.modules);
+
   return (
     <div
       className="
@@ -30,16 +33,17 @@ export default function Player() {
           </div>
 
           <aside className="divide-y-2 divide-zinc-900 w-80 border-l border-zinc-800 bg-zinc-900 absolute top-0 bottom-0 right-0 overflow-y-auto">
-            <Module
-              moduleIndex={0}
-              title="Fundamentos redux"
-              amountOfLessons={3}
-            />
-            <Module
-              moduleIndex={1}
-              title="Fundamentos redux"
-              amountOfLessons={3}
-            />
+            {modules &&
+              modules.map((module, index) => {
+                return (
+                  <Module
+                    key={module.id}
+                    moduleIndex={index}
+                    title={module.title}
+                    amountOfLessons={module.lessons.length}
+                  />
+                );
+              })}
           </aside>
         </main>
       </h1>

@@ -3,9 +3,17 @@ import Header from "../components/Header";
 import Video from "../components/Video";
 import Module from "../components/Module";
 import { useAppSelector } from "../store";
+import { useCurrentLesson } from "../store/slices/player";
+import { useEffect } from "react";
 
 export default function Player() {
   const modules = useAppSelector((state) => state.player.course?.modules);
+
+  const { currentLesson } = useCurrentLesson();
+
+  useEffect(() => {
+    document.title = `Ignite Lab | ${currentLesson?.title}`;
+  }, [currentLesson]);
 
   return (
     <div
